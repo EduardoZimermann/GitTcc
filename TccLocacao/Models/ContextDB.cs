@@ -14,5 +14,7 @@ namespace TccLocacao.Models
         public DbSet<Cor> Cores { get; set; }
         public DbSet<Termo> Termos { get; set; }
         public DbSet<Periodo> Periodos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Locacao> Locacoes { get; set; }
     }
 }

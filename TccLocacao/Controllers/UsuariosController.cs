@@ -13,51 +13,44 @@ using TccLocacao.Models;
 
 namespace TccLocacao.Controllers
 {
-    public class ModeloesController : ApiController
+    public class UsuariosController : ApiController
     {
         private ContextDB db = new ContextDB();
 
-        // GET: api/Modeloes
-        public IQueryable<Modelo> GetModelos()
+        // GET: api/Usuarios
+        public IQueryable<Usuario> GetUsuarios()
         {
-            return db.Modelos.Where(x => x.Ativo == true);
+            return db.Usuarios.Where(x => x.Ativo == true);
         }
 
-        // GET: api/Modeloes/5
-        [ResponseType(typeof(Modelo))]
-        public async Task<IHttpActionResult> GetModelo(int id)
+        // GET: api/Usuarios/5
+        [ResponseType(typeof(Usuario))]
+        public async Task<IHttpActionResult> GetUsuario(int id)
         {
-            Modelo modelo = await db.Modelos.FindAsync(id);
-            if (modelo == null)
+            Usuario usuario = await db.Usuarios.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return Ok(modelo);
+            return Ok(usuario);
         }
 
-        [Route("api/Modeloes/{codigoMarca}/marca")]
-        [HttpGet]
-        public IQueryable<Modelo> GetModeloByMarca(int codigoMarca)
-        {
-            return db.Modelos.Where(x => x.Marca.CodigoMarca == codigoMarca);
-        }
-
-        // PUT: api/Modeloes/5
+        // PUT: api/Usuarios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutModelo(int id, Modelo modelo)
+        public async Task<IHttpActionResult> PutUsuario(int id, Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != modelo.Id)
+            if (id != usuario.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(modelo).State = EntityState.Modified;
+            db.Entry(usuario).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +58,7 @@ namespace TccLocacao.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ModeloExists(id))
+                if (!UsuarioExists(id))
                 {
                     return NotFound();
                 }
@@ -78,35 +71,35 @@ namespace TccLocacao.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Modeloes
-        [ResponseType(typeof(Modelo))]
-        public async Task<IHttpActionResult> PostModelo(Modelo modelo)
+        // POST: api/Usuarios
+        [ResponseType(typeof(Usuario))]
+        public async Task<IHttpActionResult> PostUsuario(Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Modelos.Add(modelo);
+            db.Usuarios.Add(usuario);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = modelo.Id }, modelo);
+            return CreatedAtRoute("DefaultApi", new { id = usuario.Id }, usuario);
         }
 
-        // DELETE: api/Modeloes/5
-        [ResponseType(typeof(Modelo))]
-        public async Task<IHttpActionResult> DeleteModelo(int id)
+        // DELETE: api/Usuarios/5
+        [ResponseType(typeof(Usuario))]
+        public async Task<IHttpActionResult> DeleteUsuario(int id)
         {
-            Modelo modelo = await db.Modelos.FindAsync(id);
-            if (modelo == null)
+            Usuario usuario = await db.Usuarios.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            db.Modelos.Find(id).Ativo = false;
+            db.Usuarios.Find(id).Ativo = false;
             await db.SaveChangesAsync();
 
-            return Ok(modelo);
+            return Ok(usuario);
         }
 
         protected override void Dispose(bool disposing)
@@ -118,9 +111,9 @@ namespace TccLocacao.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ModeloExists(int id)
+        private bool UsuarioExists(int id)
         {
-            return db.Modelos.Count(e => e.Id == id) > 0;
+            return db.Usuarios.Count(e => e.Id == id) > 0;
         }
     }
 }

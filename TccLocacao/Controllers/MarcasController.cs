@@ -24,12 +24,8 @@ namespace TccLocacao.Controllers
         }
 
         // GET: api/Marcas/5
-        public IQueryable<Marca> GetMarca(int codigoTipo)
-        {
-            return db.Marcas.Where(x => x.TipoVeiculo.CodigoTipo == codigoTipo);
-        }
-
-        /*public async Task<IHttpActionResult> GetMarca(int id)
+        [ResponseType(typeof(Marca))]
+        public async Task<IHttpActionResult> GetMarca(int id)
         {
             Marca marca = await db.Marcas.FindAsync(id);
             if (marca == null)
@@ -38,7 +34,14 @@ namespace TccLocacao.Controllers
             }
 
             return Ok(marca);
-        }*/
+        }
+
+        [Route("api/Marcas/{codigoTipo}/tipo")]
+        [HttpGet]
+        public IQueryable<Marca> GetMarcasByTipo(int codigoTipo)
+        {
+            return db.Marcas.Where(x => x.TipoVeiculo.CodigoTipo == codigoTipo);
+        }
 
         // PUT: api/Marcas/5
         [ResponseType(typeof(void))]

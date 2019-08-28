@@ -24,12 +24,7 @@ namespace TccLocacao.Controllers
         }
 
         // GET: api/Periodos/5
-        public IQueryable<Periodo> GetPeriodo(int codigoTipo)
-        {
-            return db.Periodos.Where(x => x.TipoVeiculo.CodigoTipo == codigoTipo && x.DataFinal > DateTime.Now);
-        }
-
-        /*[ResponseType(typeof(Periodo))]
+        [ResponseType(typeof(Periodo))]
         public async Task<IHttpActionResult> GetPeriodo(int id)
         {
             Periodo periodo = await db.Periodos.FindAsync(id);
@@ -39,7 +34,14 @@ namespace TccLocacao.Controllers
             }
 
             return Ok(periodo);
-        }*/
+        }
+
+        [Route("api/Periodos/{codigoTipo}/tipo")]
+        [HttpGet]
+        public IQueryable<Periodo> GetPeriodoByTipo(int codigoTipo)
+        {
+            return db.Periodos.Where(x => x.TipoVeiculo.CodigoTipo == codigoTipo && x.DataFinal > DateTime.Now);
+        }
 
         // PUT: api/Periodos/5
         [ResponseType(typeof(void))]

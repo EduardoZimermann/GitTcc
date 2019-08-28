@@ -163,11 +163,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CoresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocacoesController.cs" />
     <Compile Include="Controllers\MarcasController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
     <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\TermosController.cs" />
     <Compile Include="Controllers\TipoVeiculoesController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="CustomValidFields\CustomLocacaoValid.cs" />
+    <Compile Include="Enums\LocacaoValidFields.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,15 +179,41 @@
     <Compile Include="Migrations\201908271829214_Tabelas.Designer.cs">
       <DependentUpon>201908271829214_Tabelas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908281225279_UsuarioLocacao.cs" />
+    <Compile Include="Migrations\201908281225279_UsuarioLocacao.Designer.cs">
+      <DependentUpon>201908281225279_UsuarioLocacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908281304448_ContextLocacoes.cs" />
+    <Compile Include="Migrations\201908281304448_ContextLocacoes.Designer.cs">
+      <DependentUpon>201908281304448_ContextLocacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908281308309_Esqueci.cs" />
+    <Compile Include="Migrations\201908281308309_Esqueci.Designer.cs">
+      <DependentUpon>201908281308309_Esqueci.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908281415583_VirtualCode.cs" />
+    <Compile Include="Migrations\201908281415583_VirtualCode.Designer.cs">
+      <DependentUpon>201908281415583_VirtualCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908281845197_GrandesValidacoes.cs" />
+    <Compile Include="Migrations\201908281845197_GrandesValidacoes.Designer.cs">
+      <DependentUpon>201908281845197_GrandesValidacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908281851474_OutraValidacao.cs" />
+    <Compile Include="Migrations\201908281851474_OutraValidacao.Designer.cs">
+      <DependentUpon>201908281851474_OutraValidacao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContextDB.cs" />
     <Compile Include="Models\Cor.cs" />
+    <Compile Include="Models\Locacao.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Modelo.cs" />
     <Compile Include="Models\Periodo.cs" />
     <Compile Include="Models\Termo.cs" />
     <Compile Include="Models\TipoVeiculo.cs" />
     <Compile Include="Models\UserControls.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +302,24 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908271829214_Tabelas.resx">
       <DependentUpon>201908271829214_Tabelas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281225279_UsuarioLocacao.resx">
+      <DependentUpon>201908281225279_UsuarioLocacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281304448_ContextLocacoes.resx">
+      <DependentUpon>201908281304448_ContextLocacoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281308309_Esqueci.resx">
+      <DependentUpon>201908281308309_Esqueci.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281415583_VirtualCode.resx">
+      <DependentUpon>201908281415583_VirtualCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281845197_GrandesValidacoes.resx">
+      <DependentUpon>201908281845197_GrandesValidacoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908281851474_OutraValidacao.resx">
+      <DependentUpon>201908281851474_OutraValidacao.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
