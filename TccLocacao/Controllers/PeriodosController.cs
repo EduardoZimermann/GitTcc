@@ -82,6 +82,8 @@ namespace TccLocacao.Controllers
         [ResponseType(typeof(Periodo))]
         public async Task<IHttpActionResult> PostPeriodo(Periodo periodo)
         {
+            periodo.TipoVeiculoFk = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == periodo.TipoVeiculoFk).Id;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

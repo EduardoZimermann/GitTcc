@@ -82,6 +82,8 @@ namespace TccLocacao.Controllers
         [ResponseType(typeof(Modelo))]
         public async Task<IHttpActionResult> PostModelo(Modelo modelo)
         {
+            modelo.MarcaFk = db.Marcas.FirstOrDefault(x => x.CodigoMarca == modelo.MarcaFk).Id;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

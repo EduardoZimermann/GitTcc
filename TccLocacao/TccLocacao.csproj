@@ -166,12 +166,20 @@
     <Compile Include="Controllers\LocacoesController.cs" />
     <Compile Include="Controllers\MarcasController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
+    <Compile Include="Controllers\PendenciasController.cs" />
     <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\TermosController.cs" />
     <Compile Include="Controllers\TipoVeiculoesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="CustomValidFields\CustomCorValid.cs" />
     <Compile Include="CustomValidFields\CustomLocacaoValid.cs" />
+    <Compile Include="CustomValidFields\CustomMarcaValid.cs" />
+    <Compile Include="CustomValidFields\CustomModeloValid.cs" />
+    <Compile Include="CustomValidFields\CustomPeriodoValid.cs" />
+    <Compile Include="CustomValidFields\CustomTipoValid.cs" />
+    <Compile Include="CustomValidFields\CustomUsuarioValid.cs" />
     <Compile Include="Enums\LocacaoValidFields.cs" />
+    <Compile Include="Enums\TipoValidFields.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -203,12 +211,25 @@
     <Compile Include="Migrations\201908281851474_OutraValidacao.Designer.cs">
       <DependentUpon>201908281851474_OutraValidacao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908291801378_Chaves.cs" />
+    <Compile Include="Migrations\201908291801378_Chaves.Designer.cs">
+      <DependentUpon>201908291801378_Chaves.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908291934143_Status.cs" />
+    <Compile Include="Migrations\201908291934143_Status.Designer.cs">
+      <DependentUpon>201908291934143_Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908291945596_Pendencia.cs" />
+    <Compile Include="Migrations\201908291945596_Pendencia.Designer.cs">
+      <DependentUpon>201908291945596_Pendencia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContextDB.cs" />
     <Compile Include="Models\Cor.cs" />
     <Compile Include="Models\Locacao.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Modelo.cs" />
+    <Compile Include="Models\Pendencia.cs" />
     <Compile Include="Models\Periodo.cs" />
     <Compile Include="Models\Termo.cs" />
     <Compile Include="Models\TipoVeiculo.cs" />
@@ -320,6 +341,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908281851474_OutraValidacao.resx">
       <DependentUpon>201908281851474_OutraValidacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908291801378_Chaves.resx">
+      <DependentUpon>201908291801378_Chaves.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908291934143_Status.resx">
+      <DependentUpon>201908291934143_Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908291945596_Pendencia.resx">
+      <DependentUpon>201908291945596_Pendencia.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

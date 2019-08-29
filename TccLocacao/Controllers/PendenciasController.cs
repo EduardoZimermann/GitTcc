@@ -13,51 +13,47 @@ using TccLocacao.Models;
 
 namespace TccLocacao.Controllers
 {
-    public class MarcasController : ApiController
+    public class PendenciasController : ApiController
     {
         private ContextDB db = new ContextDB();
 
-        // GET: api/Marcas
-        public IQueryable<Marca> GetMarcas()
+        // GET: api/Pendencias
+        public IQueryable<Pendencia> GetPendencias()
         {
-            return db.Marcas.Where(x => x.Ativo == true);
+            return db.Pendencias.Where(x => x.Ativo == true);
         }
 
-        // GET: api/Marcas/5
-        [ResponseType(typeof(Marca))]
-        public async Task<IHttpActionResult> GetMarca(int id)
+        // GET: api/Pendencias/5
+        [ResponseType(typeof(Pendencia))]
+        public async Task<IHttpActionResult> GetPendencia(int id)
         {
-            Marca marca = await db.Marcas.FindAsync(id);
-            if (marca == null)
+            Pendencia pendencia = await db.Pendencias.FindAsync(id);
+            if (pendencia == null)
             {
                 return NotFound();
             }
 
-            return Ok(marca);
+            return Ok(pendencia);
         }
 
-        [Route("api/Marcas/{codigoTipo}/tipo")]
-        [HttpGet]
-        public IQueryable<Marca> GetMarcasByTipo(int codigoTipo)
-        {
-            return db.Marcas.Where(x => x.TipoVeiculo.CodigoTipo == codigoTipo);
-        }
-
-        // PUT: api/Marcas/5
+        // PUT: api/Pendencias/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutMarca(int id, Marca marca)
+        public async Task<IHttpActionResult> PutPendencia(int id, Pendencia pendencia)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != marca.Id)
+            if (id != pendencia.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(marca).State = EntityState.Modified;
+            if (pendencia.Aprovado)
+                db.Locacoes.FirstOrDefault(x => x.Id == pendencia.LocacaoFk).Status = "Aprovado!";
+
+            db.Entry(pendencia).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +61,7 @@ namespace TccLocacao.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MarcaExists(id))
+                if (!PendenciaExists(id))
                 {
                     return NotFound();
                 }
@@ -78,37 +74,35 @@ namespace TccLocacao.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Marcas
-        [ResponseType(typeof(Marca))]
-        public async Task<IHttpActionResult> PostMarca(Marca marca)
+        // POST: api/Pendencias
+        [ResponseType(typeof(Pendencia))]
+        public async Task<IHttpActionResult> PostPendencia(Pendencia pendencia)
         {
-            marca.TipoVeiculoFk = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == marca.TipoVeiculoFk).Id;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Marcas.Add(marca);
+            db.Pendencias.Add(pendencia);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = marca.Id }, marca);
+            return CreatedAtRoute("DefaultApi", new { id = pendencia.Id }, pendencia);
         }
 
-        // DELETE: api/Marcas/5
-        [ResponseType(typeof(Marca))]
-        public async Task<IHttpActionResult> DeleteMarca(int id)
+        // DELETE: api/Pendencias/5
+        [ResponseType(typeof(Pendencia))]
+        public async Task<IHttpActionResult> DeletePendencia(int id)
         {
-            Marca marca = await db.Marcas.FindAsync(id);
-            if (marca == null)
+            Pendencia pendencia = await db.Pendencias.FindAsync(id);
+            if (pendencia == null)
             {
                 return NotFound();
             }
 
-            db.Marcas.Find(id).Ativo = false;
+            db.Pendencias.Find(id).Ativo = false;
             await db.SaveChangesAsync();
 
-            return Ok(marca);
+            return Ok(pendencia);
         }
 
         protected override void Dispose(bool disposing)
@@ -120,9 +114,9 @@ namespace TccLocacao.Controllers
             base.Dispose(disposing);
         }
 
-        private bool MarcaExists(int id)
+        private bool PendenciaExists(int id)
         {
-            return db.Marcas.Count(e => e.Id == id) > 0;
+            return db.Pendencias.Count(e => e.Id == id) > 0;
         }
     }
 }

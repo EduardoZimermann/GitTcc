@@ -16,5 +16,6 @@ namespace TccLocacao.Models
         public DbSet<Periodo> Periodos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Locacao> Locacoes { get; set; }
+        public DbSet<Pendencia> Pendencias { get; set; }
     }
 }

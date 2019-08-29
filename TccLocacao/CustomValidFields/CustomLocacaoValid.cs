@@ -22,35 +22,36 @@ namespace TccLocacao.CustomValidFields
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            switch (typeField)
+            if (value != null)
             {
-                case LocacaoValidFields.ValidaTipo:
-                    return ValidaTipo(value);
-                case LocacaoValidFields.ValidaMarca:
-                    return ValidaMarca(value);
-                case LocacaoValidFields.ValidaModelo:
-                    return ValidaModelo(value);
-                case LocacaoValidFields.ValidaCor:
-                    return ValidaCor(value);
-                case LocacaoValidFields.ValidaPlaca:
-                    return ValidaPlaca(value);
-                case LocacaoValidFields.ValidaPeriodo:
-                    return ValidaPeriodo(value);
-                case LocacaoValidFields.ValidaUsuario:
-                    return ValidaUsuario(value);
-                case LocacaoValidFields.ValidaTermo:
-                    return ValidaTermo(value);
+                switch (typeField)
+                {
+                    case LocacaoValidFields.ValidaTipo:
+                        return ValidaTipo(value);
+                    case LocacaoValidFields.ValidaMarca:
+                        return ValidaMarca(value);
+                    case LocacaoValidFields.ValidaModelo:
+                        return ValidaModelo(value);
+                    case LocacaoValidFields.ValidaCor:
+                        return ValidaCor(value);
+                    case LocacaoValidFields.ValidaPlaca:
+                        return ValidaPlaca(value);
+                    case LocacaoValidFields.ValidaPeriodo:
+                        return ValidaPeriodo(value);
+                    case LocacaoValidFields.ValidaUsuario:
+                        return ValidaUsuario(value);
+                    case LocacaoValidFields.ValidaTermo:
+                        return ValidaTermo(value);
+                }
             }
 
-            return ValidationResult.Success;
+            return new ValidationResult($"O campo {validationContext.DisplayName} é obrigatório!"); ;
         }
 
         #region Métodos
         private ValidationResult ValidaTipo(object value)
         {
-            TipoVeiculo tipo = (TipoVeiculo)value;
-
-            var existeTipo = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == tipo.CodigoTipo && x.Ativo);
+            var existeTipo = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == (int)value && x.Ativo);
 
             if (existeTipo != null)
                 return ValidationResult.Success;
@@ -60,9 +61,7 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaMarca(object value)
         {
-            Marca marca = (Marca)value;
-
-            var existeMarca = db.Marcas.FirstOrDefault(x => x.CodigoMarca == marca.CodigoMarca && x.Ativo);
+            var existeMarca = db.Marcas.FirstOrDefault(x => x.CodigoMarca == (int)value && x.Ativo);
 
             if (existeMarca != null)
                 return ValidationResult.Success;
@@ -72,9 +71,7 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaModelo(object value)
         {
-            Modelo modelo = (Modelo)value;
-
-            var existeModelo = db.Modelos.FirstOrDefault(x => x.CodigoModelo == modelo.CodigoModelo && x.Ativo);
+            var existeModelo = db.Modelos.FirstOrDefault(x => x.CodigoModelo == (int)value && x.Ativo);
 
             if (existeModelo != null)
                 return ValidationResult.Success;
@@ -84,9 +81,7 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaCor(object value)
         {
-            Cor cor = (Cor)value;
-
-            var existeCor = db.Cores.FirstOrDefault(x => x.CodigoCor == cor.CodigoCor && x.Ativo);
+            var existeCor = db.Cores.FirstOrDefault(x => x.CodigoCor == (int)value && x.Ativo);
 
             if (existeCor != null)
                 return ValidationResult.Success;
@@ -117,9 +112,7 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaPeriodo(object value)
         {
-            Periodo periodo = (Periodo)value;
-
-            var existePeriodo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == periodo.CodigoPeriodo && x.Ativo);
+            var existePeriodo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == (int)value && x.Ativo);
 
             if (existePeriodo != null)
                 return ValidationResult.Success;
@@ -129,14 +122,21 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaUsuario(object value)
         {
-            Usuario usuario = (Usuario)value;
+            try
+            {
+                int existeUsuario = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == (int)value && x.Ativo).Id;
 
-            var existeUsuario = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == usuario.CodigoUsuario && x.Ativo);
+                var existeRegistro = db.Locacoes.FirstOrDefault(x => x.UsuarioFk == existeUsuario && x.Ativo);
 
-            if (existeUsuario != null)
+                if (existeRegistro != null)
+                    return new ValidationResult("Usuário informado já possui um registro ativo no sistema!");
+
                 return ValidationResult.Success;
-
-            return new ValidationResult("Usuário inexistente!");
+            }
+            catch (NullReferenceException)
+            {
+                return new ValidationResult("Usuário inexistente!");
+            }
         }
 
         private ValidationResult ValidaTermo(object value)

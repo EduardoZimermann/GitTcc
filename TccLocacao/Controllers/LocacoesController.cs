@@ -75,23 +75,17 @@ namespace TccLocacao.Controllers
         [ResponseType(typeof(Locacao))]
         public async Task<IHttpActionResult> PostLocacao(Locacao locacao)
         {
-            var tipo = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == locacao.TipoVeiculo.CodigoTipo);
-            locacao.TipoVeiculo = tipo;
+            locacao.TipoVeiculoFk = db.TipoVeiculos.FirstOrDefault(x => x.CodigoTipo == locacao.TipoVeiculoFk).Id;
 
-            var marca = db.Marcas.FirstOrDefault(x => x.CodigoMarca == locacao.Marca.CodigoMarca);
-            locacao.Marca = marca;
+            locacao.MarcaFk = db.Marcas.FirstOrDefault(x => x.CodigoMarca == locacao.MarcaFk).Id;
 
-            var modelo = db.Modelos.FirstOrDefault(x => x.CodigoModelo == locacao.Modelo.CodigoModelo);
-            locacao.Modelo = modelo;
+            locacao.ModeloFk = db.Modelos.FirstOrDefault(x => x.CodigoModelo == locacao.ModeloFk).Id;
 
-            var cor = db.Cores.FirstOrDefault(x => x.CodigoCor == locacao.Cor.CodigoCor);
-            locacao.Cor = cor;
+            locacao.CorFk = db.Cores.FirstOrDefault(x => x.CodigoCor == locacao.CorFk).Id;
 
-            var periodo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == locacao.Periodo.CodigoPeriodo);
-            locacao.Periodo = periodo;
+            locacao.PeriodoFk = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == locacao.PeriodoFk).Id;
 
-            var usuario = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == locacao.Usuario.CodigoUsuario);
-            locacao.Usuario = usuario;
+            locacao.UsuarioFk = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == locacao.UsuarioFk).Id;
 
             if (!ModelState.IsValid)
             {
@@ -99,9 +93,20 @@ namespace TccLocacao.Controllers
             }
 
             db.Locacoes.Add(locacao);
+            AdicionaPendencia(locacao.Id);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = locacao.Id }, locacao);
+        }
+
+        private void AdicionaPendencia(int id)
+        {
+            Pendencia pendencia = new Pendencia()
+            {
+                LocacaoFk = id,
+            };
+
+            db.Pendencias.Add(pendencia);
         }
 
         // DELETE: api/Locacoes/5
