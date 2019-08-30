@@ -23,5 +23,6 @@ namespace TccLocacao.Models
         public int CodigoPeriodo { get; set; }
         public DateTime DataInicial { get; set; }
         public DateTime DataFinal { get; set; }
+        public int Vagas { get; set; }
     }
 }

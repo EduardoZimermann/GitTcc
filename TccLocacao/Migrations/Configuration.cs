@@ -16,11 +16,22 @@ namespace TccLocacao.Migrations
 
         protected override void Seed(TccLocacao.Models.ContextDB context)
         {
+            var valores = new List<Valor>()
+            {
+                new Valor(){ Descricao = "Automóvel", Preco = 150.00},
+                new Valor(){ Descricao = "Bicicleta", Preco = 0.00},
+                new Valor(){ Descricao = "Moto", Preco = 100.00},
+                new Valor(){ Descricao = "Patinete", Preco = 0.00}
+            };
+
+            valores.ForEach(s => context.Valores.AddOrUpdate(p => p.Descricao, s));
+            context.SaveChanges();
+
             var tipoVeiculos = new List<TipoVeiculo>() {
-                new TipoVeiculo(){CodigoTipo = 1,Descricao = "Automóvel"},
-                new TipoVeiculo(){CodigoTipo = 2,Descricao = "Bicicleta"},
-                new TipoVeiculo(){CodigoTipo = 3,Descricao = "Moto"},
-                new TipoVeiculo(){CodigoTipo = 4,Descricao = "Patinete"},
+                new TipoVeiculo(){CodigoTipo = 1,Descricao = "Automóvel", ValorFk = valores.Single(x => x.Descricao == "Automóvel").Id},
+                new TipoVeiculo(){CodigoTipo = 2,Descricao = "Bicicleta", ValorFk = valores.Single(x => x.Descricao == "Bicicleta").Id},
+                new TipoVeiculo(){CodigoTipo = 3,Descricao = "Moto", ValorFk = valores.Single(x => x.Descricao == "Moto").Id},
+                new TipoVeiculo(){CodigoTipo = 4,Descricao = "Patinete", ValorFk = valores.Single(x => x.Descricao == "Patinete").Id},
                 };
 
             tipoVeiculos.ForEach(s => context.TipoVeiculos.AddOrUpdate(p => p.Descricao, s));
@@ -60,8 +71,9 @@ namespace TccLocacao.Migrations
             context.SaveChanges();
 
             var periodos = new List<Periodo>() {
-                new Periodo(){ TipoVeiculo = tipoVeiculos.FirstOrDefault(x => x.CodigoTipo == 1), CodigoPeriodo = 1, DataInicial = DateTime.Now, DataFinal = DateTime.Now},
-                new Periodo(){ TipoVeiculo = tipoVeiculos.FirstOrDefault(x => x.CodigoTipo == 3), CodigoPeriodo = 2, DataInicial = DateTime.Now, DataFinal = DateTime.Now}
+                new Periodo(){ TipoVeiculo = tipoVeiculos.FirstOrDefault(x => x.CodigoTipo == 1), CodigoPeriodo = 1, DataInicial = DateTime.Now, DataFinal = DateTime.Now, Vagas = 50},
+                new Periodo(){ TipoVeiculo = tipoVeiculos.FirstOrDefault(x => x.CodigoTipo == 3), CodigoPeriodo = 2, DataInicial = DateTime.Now, DataFinal = DateTime.Now, Vagas = 75},
+                new Periodo(){ TipoVeiculo = tipoVeiculos.FirstOrDefault(x => x.CodigoTipo == 1), CodigoPeriodo = 3, DataInicial = DateTime.Now, DataFinal = DateTime.Now, Vagas = 2}
             };
 
             periodos.ForEach(s => context.Periodos.AddOrUpdate(p => p.CodigoPeriodo, s));

@@ -99,12 +99,12 @@ namespace TccLocacao.CustomValidFields
 
             if (placaBR || placaMerc || placaMoto)
             {
-                var existePlaca = db.Locacoes.FirstOrDefault(x => x.Placa.ToLower() == value.ToString().ToLower() && x.Ativo);
+                //var existePlaca = db.Locacoes.FirstOrDefault(x => x.Placa.ToLower() == value.ToString().ToLower() && x.Ativo);
 
-                if (existePlaca == null)
+                //if (existePlaca == null)
                     return ValidationResult.Success;
 
-                return new ValidationResult("Veículo já cadastrado no sistema");
+                //return new ValidationResult("Veículo já cadastrado no sistema");
             }
 
             return new ValidationResult("A placa está em um formato incorreto!");
@@ -124,12 +124,12 @@ namespace TccLocacao.CustomValidFields
         {
             try
             {
-                int existeUsuario = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == (int)value && x.Ativo).Id;
+                //int existeUsuario = db.Usuarios.FirstOrDefault(x => x.CodigoUsuario == (int)value && x.Ativo).Id;
 
-                var existeRegistro = db.Locacoes.FirstOrDefault(x => x.UsuarioFk == existeUsuario && x.Ativo);
+                //var existeRegistro = db.Locacoes.FirstOrDefault(x => x.UsuarioFk == existeUsuario && x.Ativo);
 
-                if (existeRegistro != null)
-                    return new ValidationResult("Usuário informado já possui um registro ativo no sistema!");
+                //if (existeRegistro != null)
+                    //return new ValidationResult("Usuário informado já possui um registro ativo no sistema!");
 
                 return ValidationResult.Success;
             }

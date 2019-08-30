@@ -50,10 +50,10 @@ namespace TccLocacao.CustomValidFields
 
         private ValidationResult ValidaCodigo(object value)
         {
-            var existeCodigo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == (int)value);
+            //var existeCodigo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == (int)value);
 
-            if (existeCodigo != null)
-                return new ValidationResult("Este código já está em uso!");
+            //if (existeCodigo != null)
+                //return new ValidationResult("Este código já está em uso!");
 
             return ValidationResult.Success;
         }

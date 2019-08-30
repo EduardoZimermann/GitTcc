@@ -36,6 +36,56 @@ namespace TccLocacao.Controllers
             return Ok(pendencia);
         }
 
+        [Route("api/Pendencias/{codigoPeriodo}/Sorteio")]
+        [HttpPut]
+        public List<string> RealizarSorteio(int codigoPeriodo)
+        {
+            List<string> retorno = new List<string>();
+            Periodo periodo = db.Periodos.FirstOrDefault(x => x.CodigoPeriodo == codigoPeriodo);
+            List<Pendencia> pendenciaList = new List<Pendencia>();
+            foreach (var item in db.Pendencias)
+            {
+                if (db.Locacoes.Find(item.LocacaoFk).PeriodoFk == periodo.Id && db.Locacoes.Find(item.LocacaoFk).Status == "Em aprovação!")
+                    pendenciaList.Add(item);
+            }
+            int countp = pendenciaList.Count();
+
+            if (countp > periodo.Vagas && periodo.Vagas > 0)
+            {
+                retorno.Add("Lista de aprovados!");
+                                                                                                                                                                                                                                                                                                                                                                        
+                for (int i = 0; i < periodo.Vagas; i++)
+                {
+                    bool sorteado = false;
+
+                    while (!sorteado)
+                    {
+                        int numeroSorteado = RandomNumber(0, countp);
+
+                        if (!pendenciaList[numeroSorteado].Aprovado)
+                        {
+                            db.Pendencias.Find(pendenciaList[numeroSorteado].Id).Aprovado = true;
+                            retorno.Add("Código da pendência: " + pendenciaList[numeroSorteado].Id);
+                            db.SaveChanges();
+                            sorteado = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                retorno.Add("Não foi possível realizar o sorteio!");
+            }
+
+            return retorno;
+        }
+
+        private int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
+        }
+
         // PUT: api/Pendencias/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutPendencia(int id, Pendencia pendencia)
@@ -50,8 +100,18 @@ namespace TccLocacao.Controllers
                 return BadRequest();
             }
 
-            if (pendencia.Aprovado)
-                db.Locacoes.FirstOrDefault(x => x.Id == pendencia.LocacaoFk).Status = "Aprovado!";
+
+            /*Caso o usuário gestor aprove a locação, este if verifica se há vaga disponível para o período da locação, e então
+            altera o status para "Aprovado!" e subtrai a quantidade de vagas do período. Caso não tenha vaga, a atributo Aprovado
+            volta a ser false.*/
+            if (pendencia.Aprovado && db.Periodos.Find(db.Locacoes.Find(pendencia.LocacaoFk).PeriodoFk).Vagas > 0)
+            {
+                db.Locacoes.Find(pendencia.LocacaoFk).Status = "Aprovado!";
+                db.Periodos.Find(db.Locacoes.Find(pendencia.LocacaoFk).PeriodoFk).Vagas -= 1;
+                db.SaveChanges();
+            }
+            else
+                pendencia.Aprovado = false;
 
             db.Entry(pendencia).State = EntityState.Modified;
 

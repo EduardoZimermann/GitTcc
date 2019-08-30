@@ -36,6 +36,39 @@ namespace TccLocacao.Controllers
             return Ok(locacao);
         }
 
+        /// <summary>
+        /// E28 - Retorna valores principais de várias tabelas.
+        /// </summary>
+        /// <param name="mes">Mês a ser pesquisado</param>
+        /// <returns>Retorna os valores referente ao mês informado</returns>
+        [Route("api/Locacoes/{mes}/data")]
+        [HttpGet]
+        public IQueryable GetData(int mes)
+        {
+            var item = from loc in db.Locacoes
+                       where loc.DataAlteracao.Month == mes
+                       join user in db.Usuarios on loc.UsuarioFk equals user.Id
+                       join tipo in db.TipoVeiculos on loc.TipoVeiculoFk equals tipo.Id
+                       join marca in db.Marcas on loc.MarcaFk equals marca.Id
+                       join modelo in db.Modelos on loc.ModeloFk equals modelo.Id
+                       join cor in db.Cores on loc.CorFk equals cor.Id
+                       join val in db.Valores on tipo.ValorFk equals val.Id
+                       select new
+                       {
+                           user.Nome,
+                           user.Email,
+                           Tipo = tipo.Descricao,
+                           Marca = marca.Descricao,
+                           Modelo = modelo.Descricao,
+                           Cor = cor.Descricao,
+                           loc.Placa,
+                           loc.Status,
+                           val.Preco
+                       };
+
+            return item;
+        }
+
         // PUT: api/Locacoes/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutLocacao(int id, Locacao locacao)
@@ -93,7 +126,26 @@ namespace TccLocacao.Controllers
             }
 
             db.Locacoes.Add(locacao);
-            AdicionaPendencia(locacao.Id);
+
+            if (db.Usuarios.Find(locacao.UsuarioFk).TrabalhoNoturno)
+            {
+                if (db.Periodos.Find(locacao.PeriodoFk).Vagas > 0)
+                {
+                    locacao.Status = "Aprovado";
+                    db.Periodos.Find(locacao.PeriodoFk).Vagas -= 1;
+                }
+                else
+                {
+                    locacao.Status = "Em Aprovação!";
+                    AdicionaPendencia(locacao.Id);
+                }
+            }
+            else
+            {
+                locacao.Status = "Em Aprovação!";
+                AdicionaPendencia(locacao.Id);
+            }
+
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = locacao.Id }, locacao);

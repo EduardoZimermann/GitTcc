@@ -223,6 +223,18 @@
     <Compile Include="Migrations\201908291945596_Pendencia.Designer.cs">
       <DependentUpon>201908291945596_Pendencia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908301222255_Sorteio.cs" />
+    <Compile Include="Migrations\201908301222255_Sorteio.Designer.cs">
+      <DependentUpon>201908301222255_Sorteio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908301703098_Valores.cs" />
+    <Compile Include="Migrations\201908301703098_Valores.Designer.cs">
+      <DependentUpon>201908301703098_Valores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908301705485_ValorChave.cs" />
+    <Compile Include="Migrations\201908301705485_ValorChave.Designer.cs">
+      <DependentUpon>201908301705485_ValorChave.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContextDB.cs" />
     <Compile Include="Models\Cor.cs" />
@@ -235,6 +247,7 @@
     <Compile Include="Models\TipoVeiculo.cs" />
     <Compile Include="Models\UserControls.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Valor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -350,6 +363,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908291945596_Pendencia.resx">
       <DependentUpon>201908291945596_Pendencia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908301222255_Sorteio.resx">
+      <DependentUpon>201908301222255_Sorteio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908301703098_Valores.resx">
+      <DependentUpon>201908301703098_Valores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908301705485_ValorChave.resx">
+      <DependentUpon>201908301705485_ValorChave.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

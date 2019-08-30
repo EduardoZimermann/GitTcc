@@ -55,6 +55,6 @@ namespace TccLocacao.Models
         [CustomLocacaoValid(enums.LocacaoValidFields.ValidaTermo)]
         public bool AceiteTermo { get; set; }
 
-        public string Status { get; set; } = "Em aprovação!";
+        public string Status { get; set; }
     }
 }
