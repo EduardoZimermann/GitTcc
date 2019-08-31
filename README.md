@@ -1,2 +1,2 @@
-# GitTcc
-Estacionamento
+# Trabalho final
+Na pasta "TccLocacao"
